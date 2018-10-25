@@ -1,19 +1,21 @@
 <?php
 /*
-Plugin Name: Coinso Testimonials
-Plugin URI: https://github.com/coinso
-Description: A short description of your plugin
-Author: Ido @ Coindo
-Author URI: http://coinso.com/project/ido-barnea
-Version: 1.0
-License: GPL2
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: https://github.com/barbareshet/plugin-path
+ * Plugin Name: Coinso Testimonials
+ * Plugin URI: https://github.com/coinso
+ * Description: A Simple Testimonials Slider
+ * Author: Ido @ Coindo
+ * Author URI: http://coinso.com/project/ido-barnea
+ * Version: 1.0
+ * License: GPL2
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: cts
+ * Domain Path: /languages
 */
 
 if (!defined('ABSPATH')) {
     exit;
 }
+
 
 //register post type, taxonomies & metaboxes
 
@@ -42,4 +44,21 @@ function cts_content( $shortcode_args, $content = null ){
 //Load Scripts and styles
 require_once (plugin_dir_path(__FILE__) . '/includes/coinso-simple-testimonials-scripts-styles.php');
 
-//Content
+// Settings
+
+$cts_options = get_option('cts_settings');
+
+function cts_register_settings(){
+
+    register_setting('cts_settings_group', 'cts_settings');
+
+}
+if ( is_admin() ){
+
+    add_action('admin_init', 'cts_register_settings');
+}
+//Load Settings only if on the admin side
+if (is_admin()){
+    require_once ( plugin_dir_path(__FILE__) . '/includes/coinso-simple-testimonials-settings.php' );
+
+}

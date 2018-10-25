@@ -5,6 +5,9 @@
  * Date: 10/25/2018
  * Time: 08:16
  */
+if (!defined('ABSPATH')) {
+    exit;
+}
 
 global $testimonials_atts;
 

@@ -5,7 +5,9 @@
  * Date: 10/25/2018
  * Time: 08:16
  */
-
+if (!defined('ABSPATH')) {
+    exit;
+}
 function cts_styles_scripts(){
     wp_enqueue_style('cts-fa-5', 'https://use.fontawesome.com/releases/v5.0.10/css/all.css', array(), microtime(), 'all');
     wp_enqueue_style('cts-slick', plugins_url(). '/coinso-simple-testimonials/assets/vendor/slick/slick.css', array(), microtime(), 'all');
