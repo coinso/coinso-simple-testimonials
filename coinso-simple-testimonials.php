@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Coinso Testimonials
- * Plugin URI: https://github.com/coinso
+ * Plugin URI: https://github.com/coinso/coinso-simple-testimonials
  * Description: A Simple Testimonials Slider
  * Author: Ido @ Coindo
  * Author URI: http://coinso.com/project/ido-barnea
@@ -62,3 +62,11 @@ if (is_admin()){
     require_once ( plugin_dir_path(__FILE__) . '/includes/coinso-simple-testimonials-settings.php' );
 
 }
+
+function cts_add_settings_link( $links ) {
+    $settings_link = '<a href="'.admin_url('admin.php').'?page=cts-options">' . __( 'Settings' ) . '</a>';
+    array_push( $links, $settings_link );
+    return $links;
+}
+$plugin = plugin_basename( __FILE__ );
+add_filter( "plugin_action_links_$plugin", 'cts_add_settings_link' );

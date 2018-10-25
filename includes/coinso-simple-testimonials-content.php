@@ -9,10 +9,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-global $testimonials_atts;
+global $testimonials_atts, $cts_options;
 
 $testimonials_atts = shortcode_atts( array(
-    'testimonials_title'    =>  __('Testimonials', 'textdoman'),
+    'testimonials_title'    =>  $cts_options['cts_section_title'] ? $cts_options['cts_section_title'] : 'Testimonials',
     'testimonials_count'    =>  -1,
     'autoplay'              =>  'true',
     'autoplaySpeed'         =>  2000,

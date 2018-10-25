@@ -38,6 +38,29 @@ function cts_options_content(){
     <form action="options.php" method="post">
 
         <?php settings_fields('cts_settings_group') ;?>
+        <table class="form-table">
+            <tbody>
+                <th>
+                    <?php _e('Client Testimonials Setting', 'cts');?>
+                </th>
+                <tr>
+                    <th>
+                        <label for="cts_settings[cts_section_title]">
+                            <?php _e('Testimonials Section Title', 'cts');?>
+                        </label>
+                    </th>
+                    <td>
+                        <input type="text" name="cts_settings[cts_section_title]" value="<?php echo $cts_options['cts_section_title'] ;?>" id="cts_settings[cts_section_title]" class="regular-text" placeholder="Testimonials"/>
+                        <p class="description">
+                            <?php _e('Add Section Title', 'cts');?>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="submit">
+            <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'cts') ;?>">
+        </p>
     </form>
 </div>
 <?php echo ob_get_clean();
