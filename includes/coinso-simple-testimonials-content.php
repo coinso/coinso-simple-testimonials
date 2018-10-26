@@ -13,17 +13,20 @@ global $testimonials_atts, $cts_options;
 
 $testimonials_atts = shortcode_atts( array(
     'testimonials_title'    =>  $cts_options['cts_section_title'] ? $cts_options['cts_section_title'] : 'Testimonials',
-    'testimonials_count'    =>  -1,
-    'autoplay'              =>  'true',
-    'autoplaySpeed'         =>  2000,
-    'infinite'              =>  'true',
+    'testimonials_count'    =>  $cts_options['cts_posts_count'] ? $cts_options['cts_posts_count'] : -1,
+    'autoplay'              =>  $cts_options['cts_autoplay'] ? $cts_options['cts_autoplay'] : 'true',
+    'autoplaySpeed'         =>  $cts_options['cts_autoplay_speed'] ? $cts_options['cts_autoplay_speed'] : 2000,
+    'infinite'              =>  $cts_options['cts_infinite'] ? $cts_options['cts_infinite'] : 'true',
+    'main_color'            =>  $cts_options['cts_main_color'] ? $cts_options['cts_main_color'] : '#000000',
+    'secondary_color'       =>  $cts_options['cts_secondary_color'] ? $cts_options['cts_secondary_color'] : '#fff',
+    'play_icon'             =>   $cts_options['cts_play_icon'] ?  $cts_options['cts_play_icon'] : 'far fa-play-circle',
 
 
 ), $shortcode_args );
-
+$all = -1;
 $args = array(
     'post_type'         =>  'testimonials',
-    'posts_per_page'    =>  $testimonials_atts['testimonials_count'],
+    'posts_per_page'    =>  $all,
     'orderby'           =>  'menu_id title',
     'order'             =>  'DESC',
 );
@@ -32,7 +35,7 @@ $test_query = new WP_Query( $args );
 if ( $test_query->have_posts() ){ ?>
     <div class="cts-testimonials-wrap">
         <div class="cts-title-wrap">
-            <h3 class="cts-testimonial-title">
+            <h3 class="cts-testimonial-title" style="color: <?php echo $testimonials_atts['main_color'];?>">
                 <?php echo $testimonials_atts['testimonials_title'];?>
             </h3>
         </div>
@@ -46,11 +49,15 @@ if ( $test_query->have_posts() ){ ?>
                 ?>
                 <div class="cts-testimonial-wrap">
                     <div class="cts-testimonial">
-                        <div class="cts-testimonial__thumbnail-wrap">
+                        <div class="cts-testimonial__thumbnail-wrap" style="border-color: <?php echo $testimonials_atts['main_color'];?>;">
                             <div class="cts-img-overlay"></div>
-                            <i class="far fa-play-circle"></i>
+                            <i class="<?php echo $testimonials_atts['play_icon'];?>" style="color: <?php echo $testimonials_atts['secondary_color'];?>;"></i>
                             <div class="cts-testimonial__img-wrap">
-                                <img src="<?php echo $testimonial_img;?>" alt="<?php echo $testimonial_title;?>" data-id="<?php echo $testimonial_video_id;?>" class="cts-testimonial__img">
+                                <?php if ( $testimonial_img ){ ?>
+                                    <img src="<?php echo $testimonial_img;?>" alt="<?php echo $testimonial_title;?>" data-id="<?php echo $testimonial_video_id;?>" class="cts-testimonial__img">
+                                <?php } else { ?>
+                                    <img src="<?php echo 'https://img.youtube.com/vi/'. $testimonial_video_id . '/0.jpg';?>" alt="<?php echo $testimonial_title;?>" data-id="<?php echo $testimonial_video_id;?>" class="cts-testimonial__img">
+                                <?php } ?>
                             </div>
                             <div class="cts-testimonial__vid-wrap">
                                 <iframe id="<?php echo $testimonial_video_id;?>" class="embed-responsive-item cts-testimonial__vid" src="" data-src="https://www.youtube.com/embed/<?php echo $testimonial_video_id;?>?rel=0" allow="autoplay; encrypted-media" frameborder="0" allowfullscreen></iframe>

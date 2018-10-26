@@ -8,61 +8,186 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+if (! class_exists('CTS_Setting')){
+    class CTS_Setting{
 
-// Create the Menu link
+        private static $instance = null;
 
-function cts_options_menu_link(){
-    add_menu_page( 'Client Testimonials', 'Client Testimonials', 'manage_options', 'cts-options', 'cts_options_content', 'dashicons-thumbs-up');
-}
-if ( is_admin() ){
+        public $cts_options;
 
-    add_action('admin_menu','cts_options_menu_link');
-}
 
-function cts_options_content(){
+        public static function get_instance(){
 
-    if ( !current_user_can( 'manage_options' ) )  {
-        wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-    }
+            if ( null == self::$instance ){
+                self::$instance = new self();
+            }
+            return self::$instance;
+        }
+
+        private function __construct() {
+            if ( is_admin() ){
+
+	            add_action( 'admin_menu', array( &$this, 'cts_options_menu_link') );
+            }
+        }
+
+
+	    function cts_options_menu_link(){
+
+		    add_submenu_page(
+			    'edit.php?post_type=testimonials',
+			    'Client Testimonials Options',
+			    'Testimonials Options',
+			    'manage_options',
+			    'cts-options',
+			    array( $this, 'cts_options_content')
+		    );
+	    }
+
+	    function cts_options_content(){
+
+		    if ( !current_user_can( 'manage_options' ) )  {
+			    wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		    }
 // init global variable for options
 
-    global $cts_options;
+		    global $cts_options;
+            $select_options = array('true', 'false');
+            $play_icons = array('fas fa-play', 'fas fa-play-circle', 'far fa-play-circle', 'fab fa-youtube');
+		    ob_start();?>
 
-    ob_start();?>
+            <div class="wrap">
+                <h2><?php _e('Client Testimonials Slider', 'cts') ;?></h2>
+                <p>
+				    <?php _e('Settings For the Client Testimonials Slider Plugin', 'cts') ;?>
+                </p>
+                <form action="options.php" method="post">
 
-<div class="wrap">
-    <h2><?php _e('Client Testimonials Slider', 'cts') ;?></h2>
-    <p>
-        <?php _e('Settings For the Client Testimonials Slider Plugin', 'cts') ;?>
-    </p>
-    <form action="options.php" method="post">
+				    <?php settings_fields('cts_settings_group') ;?>
+                    <table class="form-table">
+                        <tbody>
+                        <th>
+						    <?php _e('Client Testimonials Setting', 'cts');?>
+                        </th>
+                        <tr>
+                            <th>
+                                <label for="cts_settings[cts_section_title]">
+								    <?php _e('Testimonials Section Title', 'cts');?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="text" name="cts_settings[cts_section_title]" value="<?php echo $cts_options['cts_section_title'] ;?>" id="cts_settings[cts_section_title]" class="regular-text" placeholder="Testimonials"/>
+                                <p class="description">
+								    <?php _e('Add Section Title', 'cts');?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="cts_settings[cts_main_color]">
+                                    <?php _e('Set Plugin Main Color', 'cts');?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="text" name="cts_settings[cts_main_color]" value="<?php echo $cts_options['cts_main_color'] ;?>" id="cts_settings[cts_main_color]" class="cts-color-picker"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="cts_settings[cts_secondary_color]">
+                                    <?php _e('Set Plugin Secondary Color', 'cts');?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="text" name="cts_settings[cts_secondary_color]" value="<?php echo $cts_options['cts_secondary_color'] ;?>" id="cts_settings[cts_secondary_color]" class="cts-color-picker"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="cts_settings[cts_posts_count]">
+			                        <?php _e('How Many Slides to Show', 'cts');?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="number" name="cts_settings[cts_posts_count]" value="<?php echo $cts_options['cts_posts_count'] ? $cts_options['cts_posts_count'] : 3 ;?>" id="cts_settings[cts_posts_count]" class="regular-text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="cts_settings[cts_autoplay]">
+			                        <?php _e('Auto Play', 'cts');?>
+                                </label>
+                            </th>
+                            <td>
+                                <select name="cts_settings[cts_autoplay]" id="cts_settings[cts_autoplay]" class="wide">
+                                    <?php foreach ( $select_options as $option ) {
+                                        $selected = ( $cts_options['cts_autoplay'] == $option ) ? 'selected="selected"' : '';
+                                        echo '<option value="'.$option.'" '.$selected.'>'.$option.'</option>';
+                                    }
 
-        <?php settings_fields('cts_settings_group') ;?>
-        <table class="form-table">
-            <tbody>
-                <th>
-                    <?php _e('Client Testimonials Setting', 'cts');?>
-                </th>
-                <tr>
-                    <th>
-                        <label for="cts_settings[cts_section_title]">
-                            <?php _e('Testimonials Section Title', 'cts');?>
-                        </label>
-                    </th>
-                    <td>
-                        <input type="text" name="cts_settings[cts_section_title]" value="<?php echo $cts_options['cts_section_title'] ;?>" id="cts_settings[cts_section_title]" class="regular-text" placeholder="Testimonials"/>
-                        <p class="description">
-                            <?php _e('Add Section Title', 'cts');?>
-                        </p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <p class="submit">
-            <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'cts') ;?>">
-        </p>
-    </form>
-</div>
-<?php echo ob_get_clean();
+                                    ?>
+                                </select>
+                                <!-- /# -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="cts_settings[cts_autoplay_speed]">
+			                        <?php _e('Auto Play Speed', 'cts');?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="number" name="cts_settings[cts_autoplay_speed]" value="<?php echo $cts_options['cts_autoplay_speed'] ? $cts_options['cts_autoplay_speed'] : 2000 ;?>" id="cts_settings[cts_autoplay_speed]" class="regular-text"/>
+                                <p class="description">
+                                    <?php _e('Select Time in Milliseconds, for example 1000 = 1 Second.<br> Auto play must be set to True', 'cts');?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="cts_settings[cts_infinite]">
+			                        <?php _e('Infinite', 'cts');?>
+                                </label>
+                            </th>
+                            <td>
+                                <select name="cts_settings[cts_infinite]" id="cts_settings[cts_infinite]" class="wide">
+		                            <?php foreach ( $select_options as $option ) {
+			                            $selected = ( $cts_options['cts_infinite'] == $option ) ? 'selected="selected"' : '';
+			                            echo '<option value="'.$option.'" '.$selected.'>'.$option.'</option>';
+		                            }
 
+		                            ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="cts_settings[cts_play_icon]">
+			                        <?php _e('Select Play Icon', 'cts');?>
+                                </label>
+                            </th>
+                            <td>
+	                            <?php foreach ($play_icons as $icon) {
+		                            $checked = ( $cts_options['cts_play_icon'] == $icon )? ' checked="checked" ' : '';
+		                            echo '<input type="radio"'.$checked.'value="'.$icon.'" name="cts_settings[cts_play_icon]"/> <i class="'.$icon.' fa-2x"></i><br>' ;
+	                            }?>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p class="submit">
+                        <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'cts') ;?>">
+                    </p>
+                </form>
+            </div>
+		    <?php echo ob_get_clean();
+
+	    }
+    }
+
+    CTS_Setting::get_instance();
 }
+
+
+
+

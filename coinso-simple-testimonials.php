@@ -42,7 +42,7 @@ function cts_content( $shortcode_args, $content = null ){
 }
 
 //Load Scripts and styles
-require_once (plugin_dir_path(__FILE__) . '/includes/coinso-simple-testimonials-scripts-styles.php');
+require_once ( plugin_dir_path(__FILE__) . '/includes/coinso-simple-testimonials-scripts-styles.php');
 
 // Settings
 
@@ -58,13 +58,13 @@ if ( is_admin() ){
     add_action('admin_init', 'cts_register_settings');
 }
 //Load Settings only if on the admin side
-if (is_admin()){
+if ( is_admin()){
     require_once ( plugin_dir_path(__FILE__) . '/includes/coinso-simple-testimonials-settings.php' );
 
 }
 
 function cts_add_settings_link( $links ) {
-    $settings_link = '<a href="'.admin_url('admin.php').'?page=cts-options">' . __( 'Settings' ) . '</a>';
+    $settings_link = '<a href="'.admin_url('edit.php?post_type=testimonials').'&page=cts-options">' . __( 'Settings' ) . '</a>';
     array_push( $links, $settings_link );
     return $links;
 }

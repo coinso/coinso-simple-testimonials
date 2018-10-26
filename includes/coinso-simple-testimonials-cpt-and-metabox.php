@@ -10,12 +10,15 @@ if (!defined('ABSPATH')) {
 }
 
 if (!class_exists('CTS_Testimonials')){
+
  class CTS_Testimonials{
         public function __construct(){
 
             add_action('init', array( $this, 'register_testimonials_post_types'));
             add_action('add_meta_boxes',array( $this, 'register_testimonials_metabox') );
             add_action('save_post', array( $this,'save_testimonials_metabox'));
+	        add_action( 'manage_testimonials_posts_custom_column', array( $this, 'custom_testimonials_column_content'),10, 2 );
+	        add_filter('manage_testimonials_posts_columns' , array( $this, 'cts_set_testimonials_columns'));
 
 
         }
@@ -27,7 +30,7 @@ if (!class_exists('CTS_Testimonials')){
          $labels = array(
              'name' => _x( $plural, 'cts' ),
              'singular_name' => _x( $singular, 'cts' ),
-             'add_new' => _x( 'Add New', 'cts' ),
+             'add_new' => _x( 'Add New' . $singular, 'cts' ),
              'add_new_item' => _x( 'Add New '. $singular, 'cts' ),
              'edit_item' => _x( 'Edit '. $singular, 'cts' ),
              'new_item' => _x( 'New '. $singular, 'cts' ),
@@ -122,6 +125,23 @@ if (!class_exists('CTS_Testimonials')){
 
      }
 
+	 function cts_set_testimonials_columns($columns) {
+		 return array(
+			 'cb' => '<input type="checkbox" />',
+			 'title' => __('Title', 'cts'),
+			 'date' => __('Date', 'cts'),
+			 'video_id' =>__( 'Video ID', 'cts'),
+		 );
+	 }
+
+	 function custom_testimonials_column_content( $column_name, $post_id ) {
+		 if ( $column_name == 'video_id' ) {
+			 $video_id = get_post_meta( $post_id, 'cts_video_id', true );
+			 if ( $video_id ) {
+				 echo $video_id;
+			 }
+		 }
+	 }
 
 
 
