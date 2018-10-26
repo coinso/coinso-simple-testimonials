@@ -5,7 +5,7 @@
  * Description: A Simple Testimonials Slider
  * Author: Ido @ Coindo
  * Author URI: http://coinso.com/project/ido-barnea
- * Version: 1.0
+ * Version: 1.5
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: cts
@@ -16,7 +16,18 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+require 'plugin-update-checker/plugin-update-checker.php';
+$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+	'https://github.com/coinso/coinso-simple-testimonials/',
+	__FILE__,
+	'coinso-simple-testimonials'
+);
+$myUpdateChecker->setBranch('stable');
 
+function cts_load_textdomain() {
+	load_plugin_textdomain( 'cts', false, basename( dirname( __FILE__ ) ) . '/languages' );
+}
+add_action( 'plugins_loaded', 'cts_load_textdomain' );
 //register post type, taxonomies & metaboxes
 
 require_once (plugin_dir_path(__FILE__) . '/includes/coinso-simple-testimonials-cpt-and-metabox.php');
