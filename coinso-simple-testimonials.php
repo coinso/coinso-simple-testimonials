@@ -18,9 +18,9 @@ if (!defined('ABSPATH')) {
 
 require 'plugin-update-checker/plugin-update-checker.php';
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/coinso/coinso-simple-testimonials/',
-	__FILE__,
-	'coinso-simple-testimonials'
+		'https://github.com/coinso/coinso-simple-testimonials/',
+		__FILE__,
+		'cts-options'
 );
 $myUpdateChecker->setBranch('stable');
 
