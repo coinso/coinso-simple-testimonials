@@ -15,3 +15,8 @@ This is A WordPress Plugin to enable a slider of video testimonials
 
 ## v 1.5.2 - first stable version
 - Added README.MD file 
+
+## Resources
+This plugin was developed with the usage of the following Github Resources:
+* [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker)
+* [Slick Slider](https://kenwheeler.github.io/slick/)
