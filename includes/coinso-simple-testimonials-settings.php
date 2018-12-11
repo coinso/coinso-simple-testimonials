@@ -179,6 +179,9 @@ if (! class_exists('CTS_Setting')){
                         <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'cts') ;?>">
                     </p>
                 </form>
+                <p class="description">
+                    <?php _e('Please copy this shortcode to your page ot template file <code>[cts-testimonials]</code>', 'cts');?>
+                </p>
             </div>
 		    <?php echo ob_get_clean();
 
