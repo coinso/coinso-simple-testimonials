@@ -16,7 +16,7 @@
                 slidesToShow: 3,
                 slidesToScroll: 1,
                 accessibility: true,
-                rtl:true,
+                // rtl:true,
                 // prevArrow: '<button type="button" class="fa fa-angle-right fa-2x" aria-label="Prev" role="button"><span class="sr-only">click to see previous slide</span></button>',
                 // nextArrow: '<button type="button" class="fa fa-angle-left fa-2x" aria-label="Next" role="button"><span class="sr-only">click to see next slide</span></button>',
                 autoplay: autoplay,

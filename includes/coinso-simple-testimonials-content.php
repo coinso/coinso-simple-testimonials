@@ -13,13 +13,13 @@ global $testimonials_atts, $cts_options;
 
 $testimonials_atts = shortcode_atts( array(
     'testimonials_title'    =>  $cts_options['cts_section_title'] ? $cts_options['cts_section_title'] : 'Testimonials',
-    'testimonials_count'    =>  $cts_options['cts_posts_count'] ? $cts_options['cts_posts_count'] : -1,
-    'autoplay'              =>  $cts_options['cts_autoplay'] ? $cts_options['cts_autoplay'] : 'true',
-    'autoplaySpeed'         =>  $cts_options['cts_autoplay_speed'] ? $cts_options['cts_autoplay_speed'] : 2000,
-    'infinite'              =>  $cts_options['cts_infinite'] ? $cts_options['cts_infinite'] : 'true',
-    'main_color'            =>  $cts_options['cts_main_color'] ? $cts_options['cts_main_color'] : '#000000',
-    'secondary_color'       =>  $cts_options['cts_secondary_color'] ? $cts_options['cts_secondary_color'] : '#fff',
-    'play_icon'             =>   $cts_options['cts_play_icon'] ?  $cts_options['cts_play_icon'] : 'far fa-play-circle',
+    'testimonials_count'    =>  !empty($cts_options['cts_posts_count']) ? $cts_options['cts_posts_count'] : -1,
+    'autoplay'              =>  !empty($cts_options['cts_autoplay']) ? $cts_options['cts_autoplay'] : 'true',
+    'autoplaySpeed'         =>  !empty($cts_options['cts_autoplay_speed']) ? $cts_options['cts_autoplay_speed'] : 2000,
+    'infinite'              =>  !empty($cts_options['cts_infinite']) ? $cts_options['cts_infinite'] : 'true',
+    'main_color'            =>  !empty($cts_options['cts_main_color']) ? $cts_options['cts_main_color'] : '#000000',
+    'secondary_color'       =>  !empty($cts_options['cts_secondary_color']) ? $cts_options['cts_secondary_color'] : '#fff',
+    'play_icon'             =>   !empty($cts_options['cts_play_icon']) ?  $cts_options['cts_play_icon'] : 'far fa-play-circle',
 
 
 ), $shortcode_args );
@@ -40,14 +40,19 @@ if ( $test_query->have_posts() ){ ?>
             </h3>
         </div>
         <div id="cts-testimonials" data-autoplay="<?php echo $testimonials_atts['autoplay'];?>" data-speed="<?php echo $testimonials_atts['autoplaySpeed'];?>" data-infinite="<?php echo $testimonials_atts['infinite'];?>">
-            <?php while ( $test_query->have_posts() ){
+            <?php
+            $i = 1;
+            while ( $test_query->have_posts() ){
                 $test_query->the_post();
                 $testimonial_img        = get_the_post_thumbnail_url();
                 $testimonial_video_id   = get_post_meta($test_query->post->ID, 'cts_video_id', true);
                 $testimonial_title      = get_the_title();
-
+                if ( $i == 3 ){ $i = 1; }
+                if ( $i = 1 ){
+                    echo '<div class="wrap-2">';
+                }
                 ?>
-                <div class="cts-testimonial-wrap">
+                <div class="cts-testimonial-wrap count-<?php echo $i;?>">
                     <div class="cts-testimonial">
                         <div class="cts-testimonial__thumbnail-wrap" style="border-color: <?php echo $testimonials_atts['main_color'];?>;">
                             <div class="cts-img-overlay"></div>
@@ -70,7 +75,12 @@ if ( $test_query->have_posts() ){ ?>
                         </div>
                     </div>
                 </div>
-            <?php } ?>
+
+            <?php if ( $i = 2 ){
+                    echo '</div>';
+                }
+                $i++;
+            } ?>
         </div>
     </div>
 
