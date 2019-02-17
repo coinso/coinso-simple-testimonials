@@ -6,14 +6,15 @@
     function cts_testimonials_slider( em ) {
         var autoplay    = $( em ).data('autoplay'),
             speed       = $( em ).data('speed'),
-            infinite    = $( em ).data('infinite');
+            infinite    = $( em ).data('infinite'),
+            count       = $( em ).data('count');
         $( em ).slick(
 
             {
                 centerMode: false,
                 dots: true,
                 infinite: infinite,
-                slidesToShow: 3,
+                slidesToShow: count,
                 slidesToScroll: 1,
                 accessibility: true,
                 // rtl:true,
@@ -21,6 +22,8 @@
                 // nextArrow: '<button type="button" class="fa fa-angle-left fa-2x" aria-label="Next" role="button"><span class="sr-only">click to see next slide</span></button>',
                 autoplay: autoplay,
                 autoplaySpeed: speed,
+                pauseOnHover: true,
+                pauseOnDotsHover: true,
                 responsive: [
                     {
                         breakpoint: 768,
