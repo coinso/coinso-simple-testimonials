@@ -53,6 +53,8 @@ if (! class_exists('CTS_Setting')){
 
 		    global $cts_options;
             $select_options = array('true', 'false');
+            $title_attr_options = array('h1', 'h2', 'h3', 'h4');
+            $align = array('right', 'center', 'left');
             $play_icons = array('fas fa-play', 'fas fa-play-circle', 'far fa-play-circle', 'fab fa-youtube');
 		    ob_start();?>
 
@@ -76,10 +78,58 @@ if (! class_exists('CTS_Setting')){
                                 </label>
                             </th>
                             <td>
-                                <input type="text" name="cts_settings[cts_section_title]" value="<?php echo $cts_options['cts_section_title'] ;?>" id="cts_settings[cts_section_title]" class="regular-text" placeholder="Testimonials"/>
+                                <input type="text" name="cts_settings[cts_section_title]" value="<?php echo $cts_options['cts_section_title'] ;?>" id="cts_settings[cts_section_title]" class="regular-text half-width" placeholder="Testimonials"/>
                                 <p class="description">
 								    <?php _e('Add Section Title', 'cts');?>
                                 </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="cts_settings[cts_section_title_attr]">
+                                    <?php _e('Testimonials Section Title Attribute', 'cts');?>
+                                </label>
+                            </th>
+                            <td>
+                                <select name="cts_settings[cts_section_title_attr]" id="cts_settings[cts_section_title_attr]" class="wide">
+                                    <?php foreach ( $title_attr_options as $option ) {
+                                        $selected = ( $cts_options['cts_section_title_attr'] == $option ) ? 'selected="selected"' : '';
+                                        echo '<option value="'.$option.'" '.$selected.'>'.$option.'</option>';
+                                    }
+
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="cts_settings[cts_section_subtitle]">
+                                    <?php _e('Testimonials Section Sub Title', 'cts');?>
+                                </label>
+                            </th>
+                            <td>
+                                <textarea name="cts_settings[cts_section_subtitle]" value="<?php if (!empty($cts_options['cts_section_subtitle'])) echo $cts_options['cts_section_subtitle'];?>" id="cts_settings[cts_section_subtitle]" class="regular-text half-width" placeholder="Testimonials Subtitle" cols="30" rows="10"></textarea>
+
+                                <p class="description">
+                                    <?php _e('Add Section Sub Title', 'cts');?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="cts_settings[cts_head_align]">
+                                    <?php _e('Testimonials Align', 'cts');?>
+                                </label>
+                            </th>
+                            <td>
+                                <select name="cts_settings[cts_head_align]" id="cts_settings[cts_head_align]" class="wide">
+                                    <?php foreach ( $align as $option ) {
+                                        $selected = ( $cts_options['cts_head_align'] == $option ) ? 'selected="selected"' : '';
+                                        echo '<option value="'.$option.'" '.$selected.'>'.ucfirst( $option ).'</option>';
+                                    }
+
+                                    ?>
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -105,7 +155,7 @@ if (! class_exists('CTS_Setting')){
                         <tr>
                             <th>
                                 <label for="cts_settings[cts_posts_count]">
-			                        <?php _e('How Many Slides to Show', 'cts');?>
+			                        <?php _e('How Many Slides to Show?', 'cts');?>
                                 </label>
                             </th>
                             <td>

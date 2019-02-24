@@ -1,0 +1,27 @@
+.testimonials-form{
+    font-size: 18px;
+    padding-top: 15px;
+}
+.testimonials-form input {
+    padding: 5px;
+}
+.testimonials-form select{
+    height: 30px;
+}
+.testimonials-form .full-width{
+    width: 100%;
+}
+.testimonials-form .half-width{
+    width: 50%;
+}
+.testimonials-form label{
+    display: block;
+    padding-bottom: 10px;
+}
+.testimonials-form .form-group{
+    padding-bottom: 15px;
+}
+
+.half-width{
+    width: 50%;
+}
