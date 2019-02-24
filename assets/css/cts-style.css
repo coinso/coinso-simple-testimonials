@@ -1,7 +1,6 @@
 .cts-testimonials-wrap .cts-testimonial-title{
     color: red;
     font-weight: bold;
-    text-align: center;
 }
 #cts-testimonials{
 
@@ -82,4 +81,9 @@
     margin-top: 15px;
     text-align: center;
     text-transform: capitalize;
+}
+
+.cts-testimonial-star-rating{
+    list-style-type: none;
+    display: inline-flex;
 }

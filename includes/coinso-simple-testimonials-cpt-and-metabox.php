@@ -71,8 +71,8 @@ if (!class_exists('CTS_Testimonials')){
 
             if ( in_array( $post_type, $post_types )){
                 add_meta_box(
-                    'cts_testimonial_vid_id',
-                    __('Testimonial Video ID', 'cts'),
+                    'cts_testimonial_fields',
+                    __('Testimonial Info', 'cts'),
                     array( $this, 'render_testimonials_meta_box_content'),
                     $post_type,
                     'advanced',
@@ -82,47 +82,56 @@ if (!class_exists('CTS_Testimonials')){
 
      }
 
-     function save_testimonials_metabox( $post_id ){
-            if ( !isset( $_POST['cts_testimonial_nonce'] ) ){
-                return $post_id;
-            }
-            $nonce = $_POST['cts_testimonial_nonce'];
+     function render_testimonials_meta_box_content( $post ){
+         wp_nonce_field(basename( __FILE__ ), 'cts_testimonial_nonce');
+        $cts_stored_meta = get_post_meta( $post->ID );
 
-            if ( !wp_verify_nonce( $nonce, 'cts_testimonial' ) ){
-                return $post_id;
-            }
-         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-             return $post_id;
-         }
-         // Check the user's permissions.
-         if ( 'page' == $_POST['post_type'] ) {
-             if ( ! current_user_can( 'edit_page', $post_id ) ) {
-                 return $post_id;
-             }
-         } else {
-             if ( ! current_user_can( 'edit_post', $post_id ) ) {
-                 return $post_id;
-             }
-         }
+         ?>
+         <div class="wrap testimonials-form">
+             <div class="form-group">
+                 <label for="testimonial_vid_id">
+                     <?php _e('Add Testimonial Video ID', 'cts');?>
+                 </label>
+                 <input type="text" id="testimonial_vid_id" name="testimonial_vid_id" value="<?php if(!empty($cts_stored_meta['testimonial_vid_id'])) echo esc_attr($cts_stored_meta['testimonial_vid_id'][0]); ?>" class="form-control half-width" />
+             </div>
+             <div class="form-group">
+                 <label for="testimonial_rating">
+                     <?php _e('Select Rating', 'cts');?>
+                 </label>
+                 <select name="testimonial_rating" id="testimonial_rating" class="form-control half-width">
+                     <?php $ratingValues = array(1,2,3,4,5);
+                     foreach ( $ratingValues as $key=>$value){
+                        if ( $value == $cts_stored_meta['testimonial_rating'][0]){ ?>
+                            <option value="<?php echo $value;?>" selected><?php echo $value . ' Stars';?></option>
+                        <?php } else { ?>
+                            <option value="<?php echo $value;?>"><?php echo $value . ' Stars';?></option>
+                        <?php }
+                     }?>
 
-         $mydata = sanitize_text_field( $_POST['testimonial_vid_id'] );
-
-         // Update the meta field.
-         update_post_meta( $post_id, 'cts_video_id', $mydata );
+                 </select>
+             </div>
+         </div>
+         <?php
 
      }
 
-     function render_testimonials_meta_box_content( $post ){
-         wp_nonce_field('cts_testimonial', 'cts_testimonial_nonce');
 
-         $value = get_post_meta( $post->ID, 'cts_video_id', true );
-         ?>
-         <label for="testimonial_vid_id">
-             <?php _e('Add Testimonial Video ID', 'cts');?>
-         </label>
-         <input type="text" id="testimonial_vid_id" name="testimonial_vid_id" value="<?php echo esc_attr( $value ); ?>" size="25" />
-         <?php
+     function save_testimonials_metabox( $post_id ){
+         $is_autosave = wp_is_post_autosave( $post_id );
+         $is_revision = wp_is_post_revision( $post_id );
 
+         $is_valid_nonce = ( isset( $_POST['cts_testimonial_nonce'] ) && wp_verify_nonce( $_POST['cts_testimonial_nonce'] , basename( __FILE__) ) ) ? 'true' : 'false' ;
+
+         if ( $is_autosave || $is_revision || !$is_valid_nonce ){
+             return;
+         }
+
+         if ( isset( $_POST['testimonial_vid_id'] ) ){
+             update_post_meta( $post_id, 'testimonial_vid_id', sanitize_text_field( $_POST['testimonial_vid_id'] ) );
+         }
+         if ( isset( $_POST['testimonial_rating'] ) ){
+             update_post_meta( $post_id, 'testimonial_rating', sanitize_text_field( $_POST['testimonial_rating'] ) );
+         }
      }
 
 	 function cts_set_testimonials_columns($columns) {
@@ -131,16 +140,23 @@ if (!class_exists('CTS_Testimonials')){
 			 'title' => __('Title', 'cts'),
 			 'date' => __('Date', 'cts'),
 			 'video_id' =>__( 'Video ID', 'cts'),
+             'rating'   => __('Rating', 'cts')
 		 );
 	 }
 
 	 function custom_testimonials_column_content( $column_name, $post_id ) {
 		 if ( $column_name == 'video_id' ) {
-			 $video_id = get_post_meta( $post_id, 'cts_video_id', true );
+			 $video_id = get_post_meta( $post_id, 'testimonial_vid_id', true );
 			 if ( $video_id ) {
 				 echo $video_id;
 			 }
 		 }
+         if ( $column_name == 'rating' ) {
+             $rating = get_post_meta( $post_id, 'testimonial_rating', true );
+             if ( $rating ) {
+                 echo $rating;
+             }
+         }
 	 }
 
 

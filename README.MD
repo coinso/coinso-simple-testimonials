@@ -12,6 +12,15 @@ This is A WordPress Plugin to enable a slider of video testimonials
 
 # Change Log:
 
+## v 1.5.4
+### Testimonials
+- Star Rating Metabox for each testimonials - New
+- Rating & Video ID columns on main testimonials page - Improved
+### Admin
+- Testimonials Section Title Attribute - Select - New
+- Testimonials Section Sub Title - New
+- Testimonials Head Align - select - New
+ 
 
 ## v 1.5.2 - first stable version
 - Added README.MD file 

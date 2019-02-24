@@ -25,7 +25,7 @@ function cts_admin_styles_scripts(){
 		wp_enqueue_style('cts-fa-5-admin', 'https://use.fontawesome.com/releases/v5.0.10/css/all.css', array(), microtime(), 'all');
 		// Add the color picker css file
 		wp_enqueue_style( 'wp-color-picker' );
-
+        wp_enqueue_style('cts-style-admin', plugins_url( 'assets/css/admin-style.css', plugin_basename( __DIR__)), array(), microtime(), 'all');
 		// Include our custom jQuery file with WordPress Color Picker dependency
 		wp_enqueue_script( 'cts-admin-script', plugins_url( '/assets/js/cts-admin-script.js', plugin_basename( __DIR__)), array( 'jquery', 'wp-color-picker' ), false, true );
 	}

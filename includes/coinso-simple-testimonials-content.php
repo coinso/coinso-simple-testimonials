@@ -20,10 +20,14 @@ $testimonials_atts = shortcode_atts( array(
     'main_color'            =>  !empty($cts_options['cts_main_color']) ? $cts_options['cts_main_color'] : '#000000',
     'secondary_color'       =>  !empty($cts_options['cts_secondary_color']) ? $cts_options['cts_secondary_color'] : '#fff',
     'play_icon'             =>  !empty($cts_options['cts_play_icon']) ?  $cts_options['cts_play_icon'] : 'far fa-play-circle',
+    'title_attr'            =>  !empty($cts_options['cts_section_title_attr']) ?  $cts_options['cts_section_title_attr'] : 'h3',
+    'subtitle'              =>  !empty($cts_options['cts_section_subtitle']) ?  $cts_options['cts_section_subtitle'] : '',
+    'head_align'            =>  !empty($cts_options['cts_head_align']) ?  $cts_options['cts_head_align'] : 'left',
 
 
 
 ), $shortcode_args );
+
 $all = -1;
 $args = array(
     'post_type'         =>  'testimonials',
@@ -35,10 +39,19 @@ $test_query = new WP_Query( $args );
 
 if ( $test_query->have_posts() ){ ?>
     <div class="cts-testimonials-wrap">
-        <div class="cts-title-wrap">
-            <h3 class="cts-testimonial-title" style="color: <?php echo $testimonials_atts['main_color'];?>">
-                <?php echo $testimonials_atts['testimonials_title'];?>
-            </h3>
+        <div class="cts-title-wrap" style="text-align: <?php echo $testimonials_atts['head_align'] ;?>">
+            <?php if ( $testimonials_atts['title_attr'] ){
+                printf('%s', '<'.$testimonials_atts['title_attr'].' class="cts-testimonial-title" style="color:'.$testimonials_atts['main_color'].'">'.$testimonials_atts['testimonials_title'].'</'.$testimonials_atts['title_attr'].'>');
+            } else { ?>
+                <h3 class="cts-testimonial-title" style="color: <?php echo $testimonials_atts['main_color'];?>">
+                    <?php echo $testimonials_atts['testimonials_title'];?>
+                </h3>
+            <?php }
+            if ( $testimonials_atts['subtitle']) { ?>
+                <div class="cts-testimonials-subtitle">
+                    <?php echo esc_attr( $testimonials_atts['subtitle'] );?>
+                </div>
+            <?php } ?>
         </div>
         <div id="cts-testimonials" data-autoplay="<?php echo $testimonials_atts['autoplay'];?>" data-speed="<?php echo $testimonials_atts['autoplaySpeed'];?>" data-infinite="<?php echo $testimonials_atts['infinite'];?>" data-count="<?php echo $cts_options['cts_posts_count'];?>">
             <?php
@@ -46,8 +59,10 @@ if ( $test_query->have_posts() ){ ?>
             while ( $test_query->have_posts() ){
                 $test_query->the_post();
                 $testimonial_img        = get_the_post_thumbnail_url();
-                $testimonial_video_id   = get_post_meta($test_query->post->ID, 'cts_video_id', true);
+                $testimonial_video_id   = get_post_meta($test_query->post->ID, 'testimonial_vid_id', true);
                 $testimonial_title      = get_the_title();
+                $testimonioal_rating    = get_post_meta( $test_query->post->ID, 'testimonial_rating', true );
+
                 if ( $i == 3 ){ $i = 1; }
                 if ( $i = 1 ){
                     echo '<div class="wrap-2">';
@@ -70,9 +85,14 @@ if ( $test_query->have_posts() ){ ?>
                             </div>
                         </div>
                         <div class="cts-testimonial__content">
-                            <blockquote>
+                            <h4 class="cts-testimonials-title">
                                 <?php echo $testimonial_title;?>
-                            </blockquote>
+                            </h4>
+                            <ul class="cts-testimonial-star-rating">
+                                <?php for( $s = 1; $s<= $testimonioal_rating; $s++ ){
+                                    echo '<li class="ctr-star"><i class="fas fa-star" aria-hidden="true" style="color:'.$testimonials_atts['main_color'].'"></i></li>';
+                                }?>
+                            </ul>
                         </div>
                     </div>
                 </div>
