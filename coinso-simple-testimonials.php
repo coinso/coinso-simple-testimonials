@@ -5,7 +5,7 @@
  * Description: A Simple Testimonials Slider
  * Author: Ido @ Coindo
  * Author URI: http://coinso.com/project/ido-barnea
- * Version: 1.5.4
+ * Version: 1.5.5
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: cts
