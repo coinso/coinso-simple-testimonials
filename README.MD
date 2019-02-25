@@ -12,6 +12,10 @@ This is A WordPress Plugin to enable a slider of video testimonials
 
 # Change Log:
 
+## 1.5.5
+- Review Microdata, based on [schema.org/Review](https://schema.org/Review)
+- Pause slides on video watch fixed
+
 ## v 1.5.4
 ### Testimonials
 - Star Rating Metabox for each testimonials - New

@@ -14,7 +14,7 @@
                 centerMode: false,
                 dots: true,
                 infinite: infinite,
-                slidesToShow: 3,
+                slidesToShow: count,
                 slidesToScroll: 1,
                 accessibility: true,
                 // rtl:true,
@@ -49,7 +49,8 @@
             }
         );
     }
-    cts_testimonials_slider('#cts-testimonials');
+    var testimonials = cts_testimonials_slider('#cts-testimonials');
+    // testimonials();
 
     var cts_play = $('.cts-testimonial .cts-testimonial__thumbnail-wrap i');
     var vidDefer = $('.cts-testimonial__vid');
@@ -66,6 +67,7 @@
                         }
                     }
         }
+        $("#cts-testimonials").slick('slickPause');
     });
 
 })(jQuery);

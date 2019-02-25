@@ -53,7 +53,12 @@ if ( $test_query->have_posts() ){ ?>
                 </div>
             <?php } ?>
         </div>
-        <div id="cts-testimonials" data-autoplay="<?php echo $testimonials_atts['autoplay'];?>" data-speed="<?php echo $testimonials_atts['autoplaySpeed'];?>" data-infinite="<?php echo $testimonials_atts['infinite'];?>" data-count="<?php echo $cts_options['cts_posts_count'];?>">
+        <div id="cts-testimonials"
+             data-autoplay="<?php echo $testimonials_atts['autoplay'];?>"
+             data-speed="<?php echo $testimonials_atts['autoplaySpeed'];?>"
+             data-infinite="<?php echo $testimonials_atts['infinite'];?>"
+             data-count="<?php echo $cts_options['cts_posts_count'];?>"
+             >
             <?php
             $i = 1;
             while ( $test_query->have_posts() ){
@@ -62,13 +67,14 @@ if ( $test_query->have_posts() ){ ?>
                 $testimonial_video_id   = get_post_meta($test_query->post->ID, 'testimonial_vid_id', true);
                 $testimonial_title      = get_the_title();
                 $testimonioal_rating    = get_post_meta( $test_query->post->ID, 'testimonial_rating', true );
+                $testimonioal_content   = get_the_content();
 
                 if ( $i == 3 ){ $i = 1; }
                 if ( $i = 1 ){
                     echo '<div class="wrap-2">';
                 }
                 ?>
-                <div class="cts-testimonial-wrap count-<?php echo $i;?>">
+                <div class="cts-testimonial-wrap count-<?php echo $i;?>" itemprop="review" itemscope itemtype="http://schema.org/Review">
                     <div class="cts-testimonial">
                         <div class="cts-testimonial__thumbnail-wrap" style="border-color: <?php echo $testimonials_atts['main_color'];?>;">
                             <div class="cts-img-overlay"></div>
@@ -84,14 +90,24 @@ if ( $test_query->have_posts() ){ ?>
                                 <iframe id="<?php echo $testimonial_video_id;?>" class="embed-responsive-item cts-testimonial__vid" src="" data-src="https://www.youtube.com/embed/<?php echo $testimonial_video_id;?>?rel=0" allow="autoplay; encrypted-media" frameborder="0" allowfullscreen></iframe>
                             </div>
                         </div>
-                        <div class="cts-testimonial__content">
-                            <h4 class="cts-testimonials-title">
+                        <div class="cts-testimonial__content" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                            <meta itemprop="worstRating" content = "1">
+                            <meta itemprop="bestRating" content = "5">
+                            <h4 class="cts-testimonials-title" itemprop="name">
                                 <?php echo $testimonial_title;?>
                             </h4>
-                            <ul class="cts-testimonial-star-rating">
-                                <?php for( $s = 1; $s<= $testimonioal_rating; $s++ ){
-                                    echo '<li class="ctr-star"><i class="fas fa-star" aria-hidden="true" style="color:'.$testimonials_atts['main_color'].'"></i></li>';
-                                }?>
+                            <?php if ($testimonioal_content){ ?>
+                                <p itemprop="description">
+                                    <?php echo $testimonioal_content;?>
+                                </p>
+                            <?php } ?>
+                            <ul class="cts-testimonial-star-rating" itemprop="ratingValue">
+                                <meta itemprop="ratingValue" content = "<?php echo $testimonioal_rating;?>">
+                                <?php for( $s = 1; $s<= $testimonioal_rating; $s++ ){ ?>
+                                    <li class="ctr-star">
+                                        <i class="fas fa-star" aria-hidden="true" style="color:<?php echo $testimonials_atts['main_color'];?>"></i>
+                                    </li>
+                                <?php } ?>
                             </ul>
                         </div>
                     </div>
