@@ -224,6 +224,7 @@ if (! class_exists('CTS_Setting')){
                             </td>
                         </tr>
                         </tbody>
+
                     </table>
                     <p class="submit">
                         <input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e('Save Changes', 'cts') ;?>">
