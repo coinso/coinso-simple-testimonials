@@ -12,6 +12,10 @@ This is A WordPress Plugin to enable a slider of video testimonials
 
 # Change Log:
 
+## 1.5.6
+- Shows testimonial only if has testimonial_vid_id post meta filled
+- Supports Gutenberg
+
 ## 1.5.5
 - Review Microdata, based on [schema.org/Review](https://schema.org/Review)
 - Pause slides on video watch fixed

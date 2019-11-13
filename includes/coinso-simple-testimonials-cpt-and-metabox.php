@@ -59,6 +59,7 @@ if (!class_exists('CTS_Testimonials')){
              'rewrite' => array( 'slug' => strtolower($plural)),
              'capability_type' => 'post',
              'menu_position' => 22,
+             'show_in_rest' => true,
              'menu_icon' =>'dashicons-thumbs-up'
          );
 

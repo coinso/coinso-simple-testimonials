@@ -70,10 +70,8 @@ if ( $test_query->have_posts() ){ ?>
                 $testimonioal_content   = get_the_content();
 
                 if ( $i == 3 ){ $i = 1; }
-                if ( $i = 1 ){
-                    echo '<div class="wrap-2">';
-                }
-                ?>
+
+                if ( !$testimonial_video_id ) return; ?>
                 <div class="cts-testimonial-wrap count-<?php echo $i;?>" itemprop="review" itemscope itemtype="http://schema.org/Review">
                     <div class="cts-testimonial">
                         <div class="cts-testimonial__thumbnail-wrap" style="border-color: <?php echo $testimonials_atts['main_color'];?>;">
@@ -113,9 +111,7 @@ if ( $test_query->have_posts() ){ ?>
                     </div>
                 </div>
 
-            <?php if ( $i = 2 ){
-                    echo '</div>';
-                }
+            <?php
                 $i++;
             } ?>
         </div>
