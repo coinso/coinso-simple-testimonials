@@ -71,7 +71,7 @@ if ( $test_query->have_posts() ){ ?>
 
                 if ( $i == 3 ){ $i = 1; }
 
-                if ( !$testimonial_video_id ) return; ?>
+                if ( $testimonial_video_id ) { ?>
                 <div class="cts-testimonial-wrap count-<?php echo $i;?>" itemprop="review" itemscope itemtype="http://schema.org/Review">
                     <div class="cts-testimonial">
                         <div class="cts-testimonial__thumbnail-wrap" style="border-color: <?php echo $testimonials_atts['main_color'];?>;">
@@ -111,7 +111,7 @@ if ( $test_query->have_posts() ){ ?>
                     </div>
                 </div>
 
-            <?php
+            <?php }
                 $i++;
             } ?>
         </div>
