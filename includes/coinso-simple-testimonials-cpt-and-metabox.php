@@ -111,6 +111,12 @@ if (!class_exists('CTS_Testimonials')){
 
                  </select>
              </div>
+             <div class="form-group">
+                 <label for="testimonial_by">
+                     <?php _e('Testmonial Author', 'cts');?>
+                 </label>
+                 <input type="text" id="testimonial_by" name="testimonial_by" value="<?php if(!empty($cts_stored_meta['testimonial_by'])) echo esc_attr($cts_stored_meta['testimonial_by'][0]); ?>" class="form-control half-width" />
+             </div>
          </div>
          <?php
 
@@ -132,6 +138,9 @@ if (!class_exists('CTS_Testimonials')){
          }
          if ( isset( $_POST['testimonial_rating'] ) ){
              update_post_meta( $post_id, 'testimonial_rating', sanitize_text_field( $_POST['testimonial_rating'] ) );
+         }
+         if ( isset( $_POST['testimonial_by'] ) ){
+             update_post_meta( $post_id, 'testimonial_by', sanitize_text_field( $_POST['testimonial_by'] ) );
          }
      }
 
